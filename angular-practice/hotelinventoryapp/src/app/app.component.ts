@@ -3,8 +3,11 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  // template: 'Hello World from inline temp',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-video-series';
+  title = 'hotelinventoryapp';
+
+  role = 'Admin'
 }
