@@ -1,6 +1,7 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, QueryList, SkipSelf, ViewChild, ViewChildren } from '@angular/core';
 import { Room, RoomList } from './rooms';
 import { HeaderComponent } from '../header/header.component';
+import { RoomsService } from './services/rooms.service';
 
 @Component({
   selector: 'app-rooms',
@@ -29,44 +30,12 @@ roomList: RoomList[] = []
 
   @ViewChildren(HeaderComponent) headerChildrenComponent!: QueryList<HeaderComponent>;
 
-  constructor() {}
+  // roomService = new RoomsService();
+
+  constructor(@SkipSelf() private roomsSerivce: RoomsService) {}
 
   ngOnInit(): void {
-    // console.log(this.headerComponent)
-
-    this.roomList =    [ 
-      {
-        roomNumber:1,
-      roomType: 'Deluxe Room',
-      amenities: 'Wifi, Air Conditioning',
-      price: 500,
-      photos: 'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      checkinTime: new Date('11-Nov-2021'),
-      checkoutTime: new Date('12-Nov-2021'),
-      rating: 4.5,
-      },
-      {
-        roomNumber: 2,
-        roomType: 'Deluxe Room',
-        amenities: 'Wifi, Air Conditioning, Sauna',
-        price: 1000,
-        photos: 'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        checkinTime: new Date('11-Nov-2021'),
-        checkoutTime: new Date('12-Nov-2021'),
-        rating: 3.25
-        },
-        {
-          roomNumber: 3,
-          roomType: 'Private Room',
-          amenities: 'Wifi, Air Conditioning, Sauna',
-          price: 1500,
-          photos: 'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-          checkinTime: new Date('11-Nov-2021'),
-          checkoutTime: new Date('12-Nov-2021'),
-          rating:4.9,
-          },
-  
-  ]
+    this.roomList = this.roomsSerivce.getRooms();
   }
 
   ngAfterViewInit() {
@@ -105,4 +74,5 @@ roomList: RoomList[] = []
     // this.roomList.push(room)
     this.roomList = [...this.roomList, room]
   }
+
 }
