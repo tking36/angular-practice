@@ -32,10 +32,12 @@ roomList: RoomList[] = []
 
   // roomService = new RoomsService();
 
-  constructor(@SkipSelf() private roomsSerivce: RoomsService) {}
+  constructor(@SkipSelf() private roomsService: RoomsService) {}
 
   ngOnInit(): void {
-    this.roomList = this.roomsSerivce.getRooms();
+    this.roomsService.getRooms().subscribe(rooms => {
+      this.roomList = rooms
+    })
   }
 
   ngAfterViewInit() {
@@ -62,7 +64,7 @@ roomList: RoomList[] = []
 
   addRoom() {
     const room: RoomList = {
-      roomNumber: 4,
+      roomNumber: "4",
       roomType: 'Deluxe Room',
       amenities: 'Wifi',
       price: 456,
