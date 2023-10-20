@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { RoomsComponent } from './rooms/rooms.component';
 import { localStorageToken } from 'src/localstorage.token';
+import { InitService } from './init.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
     this.localStorage.setItem('name', 'Hilton Hotel')
   }
 
-  constructor(@Inject(localStorageToken) private localStorage: Storage) {
+  constructor(@Inject(localStorageToken) private localStorage: Storage, private initService: InitService) {
     
   }
   

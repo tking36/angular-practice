@@ -15,8 +15,11 @@ export class RequestInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    const newRequest = request.clone({ headers: new HttpHeaders({'token': '12345'}) })
+    if(request.method === 'POST') {
+      const newRequest = request.clone({ headers: new HttpHeaders({'token': '12345'}) })
+      return next.handle(newRequest);
+    }
 
-    return next.handle(newRequest);
+    return next.handle(request);
   }
 }
