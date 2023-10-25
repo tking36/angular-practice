@@ -1,8 +1,10 @@
-<div class="alert alert-success">
+{{ roomsForm.valid | json }}
+
+<div *ngIf="successMessage !== ''" class="alert alert-success">
   {{ successMessage }}
 </div>
 
-<form (ngSubmit)="AddRoom()">
+<form #roomsForm="ngForm" (ngSubmit)="AddRoom(roomsForm)">
   <div class="form-group">
     <input
       class="form-control"
@@ -15,6 +17,10 @@
 
   <div class="form-group">
     <input
+      #roomamentities="ngModel"
+      required
+      minlength="5"
+      maxlength="20"
       class="form-control"
       type="text"
       name="amenities"
@@ -23,8 +29,22 @@
     />
   </div>
 
+  <div class="alert alert-danger" *ngIf="roomamentities.errors?.['minlength']">
+    Amenities should be min of 5 char.
+  </div>
+  <div *ngIf="roomamentities.dirty && roomamentities.errors?.['required']">
+    Please Provide the Amenities
+  </div>
+
   <div class="form-group">
-    <input class="form-control" type="text" name="price" placeholder="Price" />
+    <input
+      required
+      class="form-control"
+      type="text"
+      name="price"
+      [(ngModel)]="room.price"
+      placeholder="Price"
+    />
   </div>
 
   <div class="form-group">
@@ -59,6 +79,9 @@
 
   <div class="form-group">
     <input
+      required
+      min="1"
+      max="5"
       class="form-control"
       type="number"
       name="rating"
@@ -68,6 +91,12 @@
   </div>
 
   <div class="">
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button
+      [disabled]="roomsForm.invalid"
+      class="btn btn-primary"
+      type="submit"
+    >
+      Submit
+    </button>
   </div>
 </form>
