@@ -2,6 +2,9 @@ import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild, ViewCo
 import { RoomsComponent } from './rooms/rooms.component';
 import { localStorageToken } from 'src/localstorage.token';
 import { InitService } from './init.service';
+import { ConfigService } from './services/config.service';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +22,27 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.name.nativeElement.innerText = 'Hilton'
     this.localStorage.setItem('name', 'Hilton Hotel')
+    // this.router.events.subscribe((event) => {
+    //   console.log(event)
+    // })
+
+    this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe((event) => {
+      console.log('Navigating Started')
+    })
+
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
+      console.log('Navigating Completed')
+    })
   }
 
-  constructor(@Inject(localStorageToken) private localStorage: Storage, private initService: InitService) {
+  
+
+
+  constructor(
+    @Inject(localStorageToken) private localStorage: Storage, 
+    private initService: InitService, 
+    private configService: ConfigService, 
+    private router: Router) {
     
   }
   
