@@ -7,11 +7,18 @@ export class LoginService {
 
   isLoggedIn: boolean = false;
 
+  isAdmin: boolean = false
+
   constructor() {}
 
     login(email: String, password: String) {
       if(email === "admin@gmail.com" && password === "Admin") {
-        return this.isLoggedIn = true
+        this.isLoggedIn = true
+        this.isAdmin = true
+      }
+      if(email === "user@gmail.com" && password === "User") {
+        this.isLoggedIn = true
+        this.isAdmin = false
       }
       return this.isLoggedIn
     }

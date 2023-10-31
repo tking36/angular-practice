@@ -23,6 +23,6 @@ export class LoginGuard implements CanActivate, CanLoad {
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
     // Function implementation goes here
-    return true;
+    return this.loginService.isLoggedIn
   }
 }
