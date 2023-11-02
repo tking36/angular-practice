@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { ConfigService } from '../services/config.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  FormArray,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-booking',
@@ -10,19 +16,26 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class BookingComponent {
   bookingForm!: FormGroup;
 
+  get guests() {
+    return this.bookingForm.get('guests') as FormArray;
+  }
+
   constructor(private configService: ConfigService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.bookingForm = this.fb.group({
-      roomId: [''],
-      guestEmail: [''],
+      roomId: new FormControl(
+        { value: '2', disabled: true },
+        { validators: [Validators.required] }
+      ),
+      guestEmail: ['', [Validators.required, Validators.email]],
       checkinDate: [''],
       checkoutDate: [''],
       bookingStatus: [''],
       bookingAmount: [''],
       bookingDate: [''],
       mobileNumber: [''],
-      guestName: [''],
+      guestName: ['', [Validators.required, Validators.minLength(5)]],
       address: this.fb.group({
         addressLine1: [''],
         addressLine2: [''],
@@ -31,10 +44,32 @@ export class BookingComponent {
         country: [''],
         zipCode: [''],
       }),
-      guestCount: [''],
-      guestList: [''],
+      guests: this.fb.array([this.addGuestControl()]),
+      tnc: new FormControl(false, { validators: [Validators.requiredTrue] }),
     });
   }
 
   addBooking() {}
+
+  addGuest() {
+    this.guests.push(this.addGuestControl());
+  }
+
+  addGuestControl() {
+    return this.fb.group({ guestName: [''], age: new FormControl('') });
+  }
+
+  addPassport() {
+    this.bookingForm.addControl('passport', new FormControl(''));
+  }
+
+  deletePassport() {
+    if (this.bookingForm.get('passport')) {
+      this.bookingForm.removeControl('passport');
+    }
+  }
+
+  removeGuest(i: number) {
+    this.guests.removeAt(i);
+  }
 }
