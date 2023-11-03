@@ -1,4 +1,4 @@
-{{ bookingForm.value | json }}
+<!-- {{ bookingForm.value | json }} -->
 
 <button mat-raised-button color="primary" type="button" (click)="addPassport()">
   Add Passport
@@ -34,6 +34,9 @@
       formControlName="guestName"
       placeholder="Name"
     />
+    <mat-error *ngIf="bookingForm.get('guestName')?.hasError('minlength')">
+      Guest name min 5
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field class="example-full-width">
@@ -117,6 +120,13 @@
             formControlName="addressLine1"
             placeholder="Guest Address Line 1"
           />
+          <mat-error
+            *ngIf="
+              bookingForm.get('address.addressLine1')?.hasError('required')
+            "
+          >
+            Required
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -193,6 +203,15 @@
                 formControlName="guestName"
                 placeholder="Guest Name"
               />
+              <mat-error
+                *ngIf="
+                  bookingForm
+                    .get(['guests', i, 'guestName'])
+                    ?.hasError('required')
+                "
+              >
+                Required
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
