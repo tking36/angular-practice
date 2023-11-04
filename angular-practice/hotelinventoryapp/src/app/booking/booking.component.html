@@ -34,6 +34,7 @@
       formControlName="guestName"
       placeholder="Name"
     />
+    {{ bookingForm.get("guestName")?.errors | json }}
     <mat-error *ngIf="bookingForm.get('guestName')?.hasError('minlength')">
       Guest name min 5
     </mat-error>
@@ -69,6 +70,9 @@
     <mat-label>Check Out Date</mat-label>
     <input matInput [matDatepicker]="picker" formControlName="checkoutDate" />
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-error
+      *ngIf="bookingForm.get('checkoutDate')?.hasError('invalidDate')"
+    ></mat-error>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 

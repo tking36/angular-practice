@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { BookingService } from './booking.service';
 import { mergeMap, switchMap } from 'rxjs';
+import { CustomValidator } from './validators/custom-validator';
 
 @Component({
   selector: 'app-booking',
@@ -29,36 +30,47 @@ export class BookingComponent {
   ) {}
 
   ngOnInit(): void {
-    this.bookingForm = this.fb.group({
-      roomId: new FormControl(
-        { value: '2', disabled: true },
-        { validators: [Validators.required] }
-      ),
-      guestEmail: [
-        '',
-        {
-          updateOn: 'blur',
-          validators: [Validators.required, Validators.email],
-        },
-      ],
-      checkinDate: [''],
-      checkoutDate: [''],
-      bookingStatus: [''],
-      bookingAmount: [''],
-      bookingDate: [''],
-      mobileNumber: ['', { updateOn: 'blur' }],
-      guestName: ['', [Validators.required, Validators.minLength(5)]],
-      address: this.fb.group({
-        addressLine1: ['', { validators: [Validators.required] }],
-        addressLine2: [''],
-        city: ['', { validators: [Validators.required] }],
-        state: ['', { validators: [Validators.required] }],
-        country: [''],
-        zipCode: [''],
-      }),
-      guests: this.fb.array([this.addGuestControl()]),
-      tnc: new FormControl(false, { validators: [Validators.requiredTrue] }),
-    });
+    this.bookingForm = this.fb.group(
+      {
+        roomId: new FormControl(
+          { value: '2', disabled: true },
+          { validators: [Validators.required] }
+        ),
+        guestEmail: [
+          '',
+          {
+            updateOn: 'blur',
+            validators: [Validators.required, Validators.email],
+          },
+        ],
+        checkinDate: [''],
+        checkoutDate: [''],
+        bookingStatus: [''],
+        bookingAmount: [''],
+        bookingDate: [''],
+        mobileNumber: ['', { updateOn: 'blur' }],
+        guestName: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(5),
+            CustomValidator.ValidateName,
+            CustomValidator.ValidateSpecialChar('*'),
+          ],
+        ],
+        address: this.fb.group({
+          addressLine1: ['', { validators: [Validators.required] }],
+          addressLine2: [''],
+          city: ['', { validators: [Validators.required] }],
+          state: ['', { validators: [Validators.required] }],
+          country: [''],
+          zipCode: [''],
+        }),
+        guests: this.fb.array([this.addGuestControl()]),
+        tnc: new FormControl(false, { validators: [Validators.requiredTrue] }),
+      },
+      { updateOn: 'blur', validators: CustomValidator.ValidateDate }
+    );
     this.getBookingData();
 
     // this.bookingForm.valueChanges.subscribe((data) => {
