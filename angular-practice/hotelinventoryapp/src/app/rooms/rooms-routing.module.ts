@@ -6,16 +6,19 @@ import { RoomsBookingComponent } from './rooms-booking/rooms-booking.component';
 import { RoomGuard } from './guards/room.guard';
 
 const routes: Routes = [
-  {path:'', component: RoomsComponent, 
-  canActivateChild: [RoomGuard],
-  children: [
-    {path:'add', component: RoomsAddComponent},
-    {path:':id', component:RoomsBookingComponent}]},
-  
+  {
+    path: '',
+    component: RoomsComponent,
+    canActivateChild: [RoomGuard],
+    children: [
+      { path: 'add', component: RoomsAddComponent },
+      // {path:':id', component:RoomsBookingComponent}
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class RoomsRoutingModule { }
+export class RoomsRoutingModule {}

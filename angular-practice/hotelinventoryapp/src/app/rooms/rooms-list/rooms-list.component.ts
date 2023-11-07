@@ -1,39 +1,47 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnChanges,
+  SimpleChanges,
+  OnDestroy,
+} from '@angular/core';
 import { RoomList } from '../rooms';
 
 @Component({
   selector: 'app-rooms-list',
   templateUrl: './rooms-list.component.html',
   styleUrls: ['./rooms-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoomsListComponent implements OnInit, OnChanges , OnDestroy {
+export class RoomsListComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() rooms: RoomList[] | null = [];
 
-  @Input() rooms: RoomList[] | null = []
+  @Input() title: string = '';
 
-  @Input() title: string = ''
+  @Input() price = 0;
 
   @Output() selectedRoom = new EventEmitter<RoomList>();
 
-  constructor () {}
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
-    if(changes['title']) {
-      this.title = changes['title'].currentValue.toUpperCase()
+    console.log(changes);
+    if (changes['title']) {
+      this.title = changes['title'].currentValue.toUpperCase();
     }
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   selectRoom(room: RoomList) {
-    this.selectedRoom.emit(room)
+    this.selectedRoom.emit(room);
   }
 
   ngOnDestroy(): void {
-    console.log('on destroy is called')
+    console.log('on destroy is called');
   }
-
 }

@@ -8,7 +8,7 @@ import { ContainerComponent } from './container/container.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { APP_SERVICE_CONFIG } from 'src/AppConfig/appconfig.service';
 import { APP_CONFIG } from 'src/AppConfig/appconfig.service';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RequestInterceptor } from './request.interceptor';
 import { InitService } from './init.service';
 import { AppNavComponent } from './app-nav/app-nav.component';
@@ -23,10 +23,12 @@ import { LoginComponent } from './login/login.component';
 import { HoverDirective } from './hover.directive';
 import { EmailvalidatorDirective } from './emailvalidator/emailvalidator.directive';
 import { RouteConfigToken } from './services/routeConfig.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 // import { RoomsModule } from './rooms/rooms.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 function initFactory(InitService: InitService) {
-  return () => InitService.init
+  return () => InitService.init;
 }
 
 @NgModule({
@@ -52,6 +54,7 @@ function initFactory(InitService: InitService) {
     MatIconModule,
     MatListModule,
     FormsModule,
+    MatSnackBarModule,
   ],
   providers: [
     {
@@ -60,7 +63,7 @@ function initFactory(InitService: InitService) {
     },
     {
       provide: RouteConfigToken,
-      useValue: {title: 'Home'},
+      useValue: { title: 'Home' },
     },
     {
       provide: HTTP_INTERCEPTORS,
@@ -72,8 +75,8 @@ function initFactory(InitService: InitService) {
       useFactory: initFactory,
       deps: [InitService],
       multi: true,
-    }
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
