@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +26,7 @@ import { RouteConfigToken } from './services/routeConfig.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // import { RoomsModule } from './rooms/rooms.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { GlobalErrorHandler } from './errorhandler.service';
 
 function initFactory(InitService: InitService) {
   return () => InitService.init;
@@ -76,6 +77,7 @@ function initFactory(InitService: InitService) {
       deps: [InitService],
       multi: true,
     },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
   ],
   bootstrap: [AppComponent],
 })
